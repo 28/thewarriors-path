@@ -45,7 +45,7 @@
                                                          :width 4})})))
 
 (def text-template
- "<div>
+  "<div>
    <span style=\"font-style: italic;
                  font-weight: bold;
                  font-size: 18px;\">%t</span>
@@ -53,10 +53,10 @@
   </div>")
 
 (defn point-text
- [title body]
+  [title body]
   (-> text-template
-   (clojure.string/replace "%t" title)
-   (clojure.string/replace "%b" body)))
+      (clojure.string/replace "%t" title)
+      (clojure.string/replace "%b" body)))
 
 (defn point-feature
   [point]
@@ -72,10 +72,10 @@
 (defn path-points
   [path]
   (->> (:points path)
-      vals
-      flatten
-      (filter #(= :story (:type %)))
-      (map point-feature)))
+       vals
+       flatten
+       (filter #(= :story (:type %)))
+       (map point-feature)))
 
 (defn line-feature
   [k]
@@ -165,18 +165,24 @@
         overlay (popup-overlay (:e p-elements))]
     (popup-overlay-close-handler (:closer p-elements) overlay)
     (doto (ol.Map. #js {:layers #js [layer vlayer]
-                   :target map-anchor
-                   :view view
-                   :controls #js []})
+                        :target map-anchor
+                        :view view
+                        :controls #js []})
       (draw-popup-handler p-elements overlay)
       (.addOverlay overlay))))
+
+(defn parse-response
+  [r]
+  (if (string? r)
+    (cljs.reader/read-string r)
+    r))
 
 (set! (.-onload js/window)
       (fn []
         (go (let [r (<! (http/get (:path-file-location @state)))]
-              (swap! state assoc :path (:body r))
+              (swap! state assoc :path (parse-response (:body r)))
               (init-map (:map-anchor @state)
-                  (:view-center @state)
-                  (:view-extent @state)
-                  (:path @state)
-                  (:popup-elements @state))))))
+                        (:view-center @state)
+                        (:view-extent @state)
+                        (:path @state)
+                        (:popup-elements @state))))))
