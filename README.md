@@ -4,7 +4,15 @@ A tribute to The Warriors movie depicting the path they took through New York.
 
 ## Overview
 
-FIXME: Write a paragraph about the library/project and highlight its goals.
+This ClojureScript app uses OpenLayers to display the nodes
+representing the key moments of the movie and lines depicting the
+path the gang took.
+
+All geo data is in [this](/resources/public/edn/path.edn) file.
+Lines are drawn sequentially by reading the nodes. Nodes are divided
+in two groups - story and other. For all story nodes additional text
+box is displayed on click containing `:name` and `:description`
+values. Non-story nodes are used just for line junctions.
 
 ## Setup
 

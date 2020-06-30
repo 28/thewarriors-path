@@ -1,6 +1,6 @@
 (defproject thewarriors-path "0.1.0-SNAPSHOT"
   :description "A tribute to The Warriors movie depicting the path they took through New York"
-  :url "http://example.com/FIXME"
+  :url "https://28.github.io/thewarriors-path/"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :min-lein-version "2.9.1"
