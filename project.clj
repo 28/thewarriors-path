@@ -1,4 +1,4 @@
-(defproject thewarriors-path "0.2.0-SNAPSHOT"
+(defproject thewarriors-path "0.2.0"
   :description "A tribute to The Warriors movie depicting the path they took through New York"
   :url "https://28.github.io/thewarriors-path/"
   :license {:name "Eclipse Public License"
