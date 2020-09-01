@@ -27,7 +27,9 @@
                                         -73.749847 40.930634]
                       :popup-elements {:e (.getElementById js/document "popup")
                                        :content (.getElementById js/document "popup-content")
-                                       :closer (.getElementById js/document "popup-closer")}}))
+                                       :closer (.getElementById js/document "popup-closer")}
+                      :copyright-element "copy-year"
+                      :init-year 2020}))
 
 (defn point-style
   []
@@ -49,6 +51,8 @@
    <span style=\"font-style: italic;
                  font-weight: bold;
                  font-size: 18px;\">%t</span>
+   <br/>
+   <br/>
    <p style=\"\">%b</p>
   </div>")
 
@@ -171,6 +175,16 @@
       (draw-popup-handler p-elements overlay)
       (.addOverlay overlay))))
 
+(defn set-copyright-year!
+  []
+  (let [e (.getElementById js/document (:copyright-element @state))
+        current-year (.getFullYear (js/Date.))
+        init-year (:init-year @state)
+        text (if (= current-year init-year)
+               init-year
+               (str init-year "-" current-year))]
+    (set! (.-innerHTML e) (str "&copy; " text))))
+
 (defn parse-response
   [r]
   (if (string? r)
@@ -181,6 +195,7 @@
       (fn []
         (go (let [r (<! (http/get (:path-file-location @state)))]
               (swap! state assoc :path (parse-response (:body r)))
+              (set-copyright-year!)
               (init-map (:map-anchor @state)
                         (:view-center @state)
                         (:view-extent @state)
